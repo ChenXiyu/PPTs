@@ -496,6 +496,39 @@ func main() {
 
 [slide]
 # channel
+Go为goroutine提供了一个极好的通信机制:channel,该机制类比于类Unix系统的管道,某goroutine写入数据到channel，其他goroutine读取该channel的内容(队列)
+    [note]
+    channel其实就是一个消息队列，
+    你应该为其设置大小，类型
+    当消息队列满了，继续写消息的goroutine将堵塞
+    [/note]
+
+
+[slide]
+```
+package main
+import "fmt"
+
+func sum(a []int, c chan int) {
+    total := 0
+    for _, v := range a {
+        total += v
+    }
+    c <- total  // send total to c
+}
+
+func main() {
+    a := []int{7, 2, 8, -9, 4, 0}
+
+    c := make(chan int)
+    go sum(a[:len(a)/2], c)
+    go sum(a[len(a)/2:], c)
+    x, y := <-c, <-c  // receive from c
+    
+    fmt.Println(x, y, x + y)
+}
+```
+
 
 [slide]
 # Thanks
