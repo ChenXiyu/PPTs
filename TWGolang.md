@@ -6,7 +6,8 @@ highlightStyle: monokai_sublime
 date: 2015-12-26
 
 [slide]
-# "我当时只是想纠集一帮人一起憎恨C++～"
+![](http://natebrennand.github.io/concurrency_and_golang/pics/gopher_head.png)
+# 你听过安利吗？
 
 [slide]
 # 提纲
@@ -16,12 +17,21 @@ date: 2015-12-26
 
 [slide]
 # 谁在用Go
-* Docker
-* Google
-* 七牛云存储
-* Dropbox
-* 美团后台流量支撑程序
-* heroku
+
+[slide]
+![Docker](http://blog.jetbrains.com/phpstorm/files/2015/10/large_v-trans.png)
+[slide]
+![Google](http://www.popsci.com/sites/popsci.com/files/styles/large_1x_/public/new-google-logo.jpg?itok=ZdIobGek)
+[slide]
+![七牛云存储](http://assets.qiniu.com/qiniu-409x220.png)
+[slide]
+![Dropbox](https://cf.dropboxstatic.com/static/images/brand/glyph@2x-vflJ1vxbq.png)
+[slide]
+![美团](https://lh6.ggpht.com/cWZZ84KujAxE6qQO81RaBdkG2_sX8MQR6Gy9EkfR4GCnkMWKNmtUOlZqb4xHOekCqI3C=w300)
+[slide]
+![heroku](https://pbs.twimg.com/profile_images/464169564171821056/43sHKeth.png)
+[slide]
+# ...
 
 [slide]
 # SO!什么是Golang？
@@ -219,7 +229,7 @@ func funcname(intput1 type1, intput2 type2)(type3, type4){
 [slide]
 # 函数是一等公民
     [note]
-    * 函数能接受函数作为参数，也能将函数作为返回值
+    函数能接受函数作为参数，也能将函数作为返回值
     [/note]
 
 
@@ -254,15 +264,6 @@ func main(){
     fmt.Println("Odd elements of slice are: ", odd)
 }
 ```
-
-
-[slide]
-# 闭包
-由函数及其相关引用环境组成的实体。
-
-
-[slide]
-# 闭包与对象
 
 [slide]
 # defer
