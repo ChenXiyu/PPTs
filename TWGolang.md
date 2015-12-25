@@ -7,13 +7,7 @@ date: 2015-12-26
 
 [slide]
 ![](http://natebrennand.github.io/concurrency_and_golang/pics/gopher_head.png)
-# 你听过安利吗？
-
-[slide]
-# 提纲
-* 安利
-* 30分钟入门
-* ~~Q&A~~讨论
+# GO
 
 [slide]
 # 谁在用Go
@@ -30,8 +24,6 @@ date: 2015-12-26
 ![美团](https://lh6.ggpht.com/cWZZ84KujAxE6qQO81RaBdkG2_sX8MQR6Gy9EkfR4GCnkMWKNmtUOlZqb4xHOekCqI3C=w300)
 [slide]
 ![heroku](https://pbs.twimg.com/profile_images/464169564171821056/43sHKeth.png)
-[slide]
-# ...
 
 [slide]
 # SO!什么是Golang？
@@ -47,8 +39,14 @@ date: 2015-12-26
 # Go的优势是？
 * 语言简单
 * 效率高，编译速度快
+* 安全
 * 天生并发支持
 * 标准库
+* 优秀的文档
+    [note]
+    开发效率，运行效率
+    不需要去网上找文档
+    [/note]
 
 [slide]
 # Go关键字
@@ -84,7 +82,7 @@ func main() {
 ```
 bool 
 float64,    float32 
-int8,   int16,  rune,    int32,  int64
+int8,   int16,  rune,    int32,  int64, int 
 byte,   uint8,  uint16,  uint32, uint64
 complex128, complex64
 string
@@ -98,6 +96,7 @@ string
 ```
 var i, j int 
 k := 3.23
+i, j = 2, 5
 _, x := "i'm a string", 324.23
 
 var arr [10]int
@@ -116,6 +115,7 @@ b := [...]float64{3.14, 1.44}
 [slide]
 ```
 var sl1 []int
+sl1 = make([]int,10)
 
 var arr [...]int{1, 2, 3, 4}
 sl2 := arr[0:2]
@@ -294,7 +294,7 @@ func main(){
 # range
 用在循环语句中，允许依次取出map，array，slice里面的元素进行遍历.
 ```
-for _, v := range map{
+for _, v := range numbers{
     fmt.Println(v)
 }
 ```
@@ -302,19 +302,19 @@ for _, v := range map{
 
 [slide]
 # struct
-    [note]
-    将一类属性或者字段进行打包
-    首字母大写字段为export字段,类似与public
-    [/note]
 
 
 [slide]
 ```
-type persion struct{
+type person struct{
     name string
     age int
 }
 ```
+    [note]
+    将一类属性或者字段进行打包
+    首字母大写字段为export字段,类似与public
+    [/note]
 
 [slide]
 # 简化的OO
