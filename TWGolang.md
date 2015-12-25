@@ -325,13 +325,174 @@ Go允许我们为特定的类型绑定方法。
 
 
 [slide]
+```
+package main
+import "fmt"
+
+type Rectangle struct {
+    width, height float64
+}
+
+func area(r Rectangle) float64 {
+    return r.width*r.height
+}
+
+func main() {
+    r1 := Rectangle{12, 2}
+    r2 := Rectangle{9, 4}
+    fmt.Println("Area of r1 is: ", area(r1))
+    fmt.Println("Area of r2 is: ", area(r2))
+}
+```
+
+[slide]
+```
+package main
+import (
+    "fmt"
+    "math"
+)
+
+type Rectangle struct {
+    width, height float64
+}
+
+type Circle struct {
+    radius float64
+}
+
+func (r Rectangle) area() float64 {
+    return r.width*r.height
+}
+
+func (c Circle) area() float64 {
+    return c.radius * c.radius * math.Pi
+}
+
+
+func main() {
+    r1 := Rectangle{12, 2}
+    c1 := Circle{10}
+
+    fmt.Println("Area of r1 is: ", r1.area())
+    fmt.Println("Area of c1 is: ", c1.area())
+}
+```
+    [note]
+    虽然method的名字一模一样，但是如果接收者不一样，那么method就不一样
+    method里面可以访问接收者的字段
+    调用method通过.访问，就像struct里面访问字段一样
+    接收者可以是指针
+    [/note]
+
+
+[slide]
 # interface 
+一组method的集合，并取了个名字。
+    [note]
+    不用显示的实现
+    [/note]
+
+[slide]
+# duck typing
+1. 定义鸭子的样子：走路、游泳...
+2. 看到了一个物体
+3. 该物体能像鸭子一样走路、游泳...那么我们就说这个物体是鸭子
+
+[slide]
+```
+type someOne interface{
+    sayHi()
+}
+type dog struct{
+    //....
+}
+type cat struct{
+    //....
+}
+type bird struct{
+    //....
+}
+type duck struct{
+    //....
+}
+type cow struct{
+    //....
+}
+type mouse struct{
+    //....
+}
+```
+
+
+[slide]
+```
+func (d dog) sayHi(){
+    fmt.Println("woof~")
+}
+func (c cat) sayHi(){
+    fmt.Println("meow~")
+}
+func (b bird) sayHi(){
+    fmt.Println("tweet~")
+}
+func (du duck) sayHi(){
+    fmt.Println("quack~")
+}
+func (co cow) sayHi(){
+    fmt.Println("moo~")
+}
+func (m mouse) sayHi(){
+    fmt.Println("squeek~")
+}
+
+func saySomething( it someOne){
+    it.sayHi()
+}
+```
+
 
 [slide]
 # 并发
+* 并发：同一时间段执行多个任务(程序的并发执行）
+* 并行：同一时刻执行任务(cpu/gpu并行计算）
 
 [slide]
 # goroutine
+goroutine是Go并行设计的核心。goroutine说到底其实就是线程，但是它比线程更小，十几个goroutine可能体现在底层就是五六个线程，Go语言内部帮你实现了这些goroutine之间的内存共享。
+
+
+[slide]
+```
+package main
+
+import (
+    "fmt"
+    "runtime"
+)
+
+func say(s string) {
+    for i := 0; i < 5; i++ {
+        runtime.Gosched() //将时间片让给其他goroutine
+        fmt.Println(s)
+    }
+}
+
+func main() {
+    go say("world") //开一个新的Goroutines执行
+    say("hello") //当前Goroutines执行
+}
+//  Output:
+// hello
+// world
+// hello
+// world
+// hello
+// world
+// hello
+// world
+// hello
+```
 
 [slide]
 # channel
