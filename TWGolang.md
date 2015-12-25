@@ -1,7 +1,6 @@
 title: Golang大法好
 speaker: XiyuChen
-url: http://localhost:8080
-transition: cards
+transition: stick
 theme: dark
 highlightStyle: monokai_sublime
 date: 2015-12-26
@@ -29,20 +28,17 @@ date: 2015-12-26
 * Google开发的一种***静态强类型***、***编译型***、***并发型***、并具有***垃圾回收***功能的编程语言。
 * **罗伯特·格瑞史莫**，**罗勃·派克**（Rob Pike）及**肯·汤普逊**为主要作者
 * 2009年11月正式宣布推出，成为开放源代码项目
-[note]
-c,Unix创始人 
-开源，不用担心google甩手不干了
-[/note]
+    [note]
+    c,Unix创始人 
+    开源，不用担心google甩手不干了
+    [/note]
 
 [slide]
 # Go的优势是？
+* 语言简单
 * 效率高，编译速度快
-* 强制静态编译
-* 简化的oo支持
 * 天生并发支持
 * 标准库
-* 错误处理
-* simple但并不easy
 
 [slide]
 # Go关键字
@@ -65,13 +61,13 @@ func main() {
     fmt.Printf("Hello, world or 你好，世界 or καλημ ́ρα κóσμ or こんにちはせかい\n")
 }
 ```
-[note]
-1. package :当前代码属于哪个包 ,import ： 引入其他包的代码
-3. 包内函数使用packageName.funcName, main.main()是程序的入口，
-7. 包内大写打头的是public的
-1. func 关键字定义函数，main函数必须没有参数和返回值。
-2. UTF8支持
-[/note]
+    [note]
+    1. package :当前代码属于哪个包 ,import ： 引入其他包的代码
+    3. 包内函数使用packageName.funcName, main.main()是程序的入口，
+    7. 包内大写打头的是public的
+    1. func 关键字定义函数，main函数必须没有参数和返回值。
+    2. UTF8支持
+    [/note]
 
 [slide]
 # 变量类型
@@ -83,9 +79,9 @@ byte,   uint8,  uint16,  uint32, uint64
 complex128, complex64
 string
 ```
-[note]
-rune是int32的别名，byte是uint8的别名
-[/note]
+    [note]
+    rune是int32的别名，byte是uint8的别名
+    [/note]
 
 [slide]
 # 变量声明/定义
@@ -98,10 +94,10 @@ var arr [10]int
 a := [3]int{1, 3, 5}
 b := [...]float64{3.14, 1.44}
 ```
-[note]
-使用关键字`var`声明/定义，使用`:=`直接定义
-有个特殊变量`_`,赋值给`_`的值都将被丢弃
-[/note]
+    [note]
+    使用关键字`var`声明/定义，使用`:=`直接定义
+    有个特殊变量`_`,赋值给`_`的值都将被丢弃
+    [/note]
 
 [slide]
 # slice
@@ -130,23 +126,203 @@ numbers["one"]=1
 numbers["ten"]=10
 fmt.Println("第十个数是：",numbers["ten"])
 ```
+    [note]
+    * 无序,不能通过index获取，必须通过key获取
+    * 长度是不固定的，和slice一样，是一种引用类型
+    * len函数适用于map，返回map拥有的key的数量
+    [/note]
+
 [slide]
 # 流程控制
+[slide]
+# for
+```
+for expression1; expression2; expression3 {
+    //...
+}
+```
+``` 
+for i := 0 ; i < 1 ; i++ {
+    //...
+}
+```
+```
+for i < 1 {
+    //...
+}
+```
+```
+for k, v =: range map {
+    //...
+}
+```
+
+[slide]
+# if
+```
+if expressions {
+    ...
+} else {
+    ...
+}
+```
+
+[slide]
+# switch
+```
+switch sExpr {
+case expr1:
+    some instructions
+case expr2:
+    some other instructions
+case expr3:
+    some other instructions
+default:
+    other code
+}
+```
+    [note]
+    * case后面不需要是常量噢～
+    * 默认不需要break
+    * `fallthrough`
+    [/note]
+```
+switch {
+case score >= 90 && score <= 100:
+    //...
+case score >= 80 && score <90:
+    //...
+default:
+    //...
+}
+```
+[slide]
+# goto
+无条件跳转到某标号。`慎用`
 
 [slide]
 # 函数
+Go的核心设计，通过`func`关键字来定义函数
+
+[slide]
+```
+func funcname(intput1 type1, intput2 type2)(type3, type4){
+    //.....
+    return output1, output2
+}
+```
+    [note]
+    多值返回，不定个数参数，参数解包
+    [/note]
+
+
+[slide]
+# 函数是一等公民
+    [note]
+    * 函数能接受函数作为参数，也能将函数作为返回值
+    [/note]
+
+
+[slide]
+```
+package main
+import "fmt"
+
+type testInt func(int) bool // 声明了一个函数类型
+
+func isOdd(integer int) bool {
+    if integer%2 == 0 {
+        return false
+    }
+    return true
+}
+
+func filter(slice []int, f testInt) []int {
+    var result []int
+    for _, value := range slice {
+        if f(value) {
+            result = append(result, value)
+        }
+    }
+    return result
+}
+
+func main(){
+    slice := []int {1, 2, 3, 4, 5, 7}
+    fmt.Println("slice = ", slice)
+    odd := filter(slice, isOdd)    // 函数当做值来传递了
+    fmt.Println("Odd elements of slice are: ", odd)
+}
+```
+
+
+[slide]
+# 闭包
+由函数及其相关引用环境组成的实体。
+
+
+[slide]
+# 闭包与对象
 
 [slide]
 # defer
+延迟语句的执行到函数退出的时候
+    [note]
+    * open file close file
+    * 栈
+    [/note]
+
+[slide]
+```
+package main
+import "fmt"
+
+func main(){
+    var arr [...]int{1, 2, 3, 4, 5}
+    
+    for i := range arr{
+       defer fmt.Println(i)
+    }
+}
+```
+    [note]
+    常用于文件的打开与关闭,信道的打开与关闭
+    [/note]
 
 [slide]
 # range
+用在循环语句中，允许依次取出map，array，slice里面的元素进行遍历.
+```
+for _, v := range map{
+    fmt.Println(v)
+}
+```
+
 
 [slide]
 # struct
+    [note]
+    将一类属性或者字段进行打包
+    首字母大写字段为export字段,类似与public
+    [/note]
+
 
 [slide]
-# OO
+```
+type persion struct{
+    name string
+    age int
+}
+```
+
+[slide]
+# 简化的OO
+
+
+[slide]
+# method
+Go允许我们为特定的类型绑定方法。
+
 
 [slide]
 # interface 
